@@ -33,11 +33,9 @@ jobs:
           image: challapoojitha/springboot-githubaction
           tags: latest
           registry: docker
-<<<<<<< HEAD
+
           username: challapoojitha
-=======
-          username: poojitha22.ch@gmail.com
->>>>>>> 6af618db904729339225e74a9b769bb82c0c73ff
+
           password: Myworld@1
 
       # Optional: Upload the full dependency graph to GitHub
