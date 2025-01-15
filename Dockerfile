@@ -1,7 +1,5 @@
-# Use a base image with Java 17
+# Use an official OpenJDK runtime as a parent image
 FROM openjdk:17-jdk-alpine
-
-EXPOSE 8080
 
 # Set the working directory in the container
 WORKDIR /app
@@ -9,16 +7,21 @@ WORKDIR /app
 # Copy the Maven wrapper files to the container
 COPY mvnw .
 COPY .mvn/ .mvn/
+
+# Copy the rest of the project files
 COPY pom.xml .
+COPY src ./src
 
-# Build the application using Maven
-RUN ./mvnw package -DskipTests
+# Grant execution permissions to the Maven wrapper
+RUN chmod +x mvnw
 
-# Copy the built JAR file to the container
-COPY target/Welcome-Test-0.0.1-SNAPSHOT.jar app.jar
+# Package the application using Maven
+RUN ./mvnw -B package
 
-# Expose the port on which the application runs
+# Expose the application port
 EXPOSE 8080
 
-# Define the command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+COPY target/Welcome-Test-0.0.1-SNAPSHOT.jar app.jar
+# Run the application
+CMD ["java", "-jar", "app.jar"]
